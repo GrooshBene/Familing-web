@@ -114,7 +114,9 @@ module.exports =
     attributes:
       article:
         model: 'article'
-      name: 'string'
+      name:
+        type: 'string'
+        required: true
       votes:
         type: 'integer'
         defaultsTo: 0

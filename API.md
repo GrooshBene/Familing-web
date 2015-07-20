@@ -158,6 +158,7 @@ VoteEntry
 투표 항목 하나를 의미합니다.
 
 - article - Article 게시글
+- name - String 투표 항목 이름
 - votes - int 투표 받은 갯수
 - voters - User[] 투표 한 사람 목록
 

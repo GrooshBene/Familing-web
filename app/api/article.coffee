@@ -65,27 +65,74 @@ router.all '/info', (req, res, next) ->
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
   return res.sendStatus 400 if not req.user.group?
+  voteEntriesParam = param req, 'voteEntries'
+  taggedParam = param req, 'tagged'
   photo = req.files.photo
   image.resize photo
   .then () ->
     template =
       group: req.user.group.id
-      type: param req, 'type'
+      type: parseInt param req, 'type'
       name: param req, 'name'
       description: param req, 'description'
       canAdd: param req, 'canAdd'
       author: req.user.id
+    template.canAdd = false if template.type == 1
     template.photo = photo.path if photo? && photo.path?
     db.collections.article.create template
     .populate 'tagged'
     .populate 'voteEntries'
   .then (article) ->
-    # TODO add voteentry / tagged handling
+    if article.type == 3
+      # 어떻게 할까요
+      # Helpppppp
+      if Array.isArray voteEntriesParam
+        db.collections.voteentry.create voteEntriesParam.map (voteEntry) ->
+          return
+            name: voteEntry
+            article: article.id
+        .then (voteEntries) ->
+          article.voteEntries = voteEntries
+          return article
+      else
+        throw new Error('voteEntries is not an array')
+    else if article.type == 1
+      # 해보고 싶어요
+      # Add voteEntry with predefined data.
+      db.collections.voteentry.create [
+        name: '찬성'
+        article: article.id
+      ,
+        name: '반대'
+        article: article.id
+      ]
+      .then (voteEntries) ->
+        article.voteEntries = voteEntries
+        return article
+    else
+      return article
+  .then (article) ->
+    # Tagged...
+    if Array.isArray taggedParam
+      taggedParam.forEach (userId) ->
+        article.tagged.add userId
+        db.collections.user.findOne userId
+        .exec (err, user) ->
+          return console.log err if err?
+          # Send push nofication
+          console.log user
+      return Q.ninvoke article, 'save'
+      .then () ->
+        return article
+    else
+      return article
+  .then (article) ->
     obj = article.toJSON()
     obj.author = req.user.toJSON()
     res.json obj
   .catch (e) ->
-    res.sendStatus 400
+    res.status 400
+    res.send e.message
 
 router.all '/self/modify', auth.loginRequired, (req, res, next) ->
   res.status 500

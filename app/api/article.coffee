@@ -70,9 +70,10 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
   photo = req.files.photo
   image.resize photo, 640
   .then () ->
+    console.log req.body
     template =
       group: req.user.group.id
-      type: parseInt param req, 'type'
+      type: parseInt(param(req, 'type'))
       name: param req, 'name'
       description: param req, 'description'
       canAdd: param req, 'canAdd'

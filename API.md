@@ -138,8 +138,8 @@ Article
 - allowed - int (0~2) 대기, 승낙, 거절 (허락해 주세요)
 - solved - boolean 해결 여부 (어떻게 할까요)
 - canAdd - boolean 투표 항목 추가 가능 여부 (어떻게 할까요)
-- voteEntries - VoteEntry[] 투표 후보 목록
-- voters - User[] 투표한 유저 목록
+- voteEntries - VoteEntry[] 투표 후보 목록 (어떻게 할까요 / 해보고 싶어요)
+- voters - User[] 투표한 유저 목록 (어떻게 할까요 / 해보고 싶어요)
 - author - User 글쓴이
 - tagged - User[] 태그당한 유저 목록
 - comments - Comment[] 댓글 목록

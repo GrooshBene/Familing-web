@@ -43,7 +43,7 @@ router.all '/self/join', auth.loginRequired, (req, res, next) ->
     return res.sendStatus 400
   if req.user.group?
     return res.sendStatus 403
-  groupobj = null
+  groupObj = null
   db.collections.group.findOne
     inviteCode: code
   .populate 'users'

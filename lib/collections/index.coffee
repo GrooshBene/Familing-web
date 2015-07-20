@@ -29,7 +29,7 @@ module.exports =
       tagged: # I really hate to do this
         collection: 'article'
         via: 'tagged'
-      class: 'string'
+      className: 'string'
       token: 'string'
       gcm: 'string'
       passport:

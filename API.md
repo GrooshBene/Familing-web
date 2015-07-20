@@ -95,7 +95,7 @@ Group. 사용자가 속하고 있는 그룹입니다.
 
 Boolean, not null. 사용자의 활성 상태입니다.
 
-### class
+### className
 
 String. 유저의 직군입니다.
 
@@ -265,7 +265,7 @@ HTTP 200
 
 - apikey - API 토큰입니다.
 - description - 유저의 프로필 메시지입니다.
-- class - 유저의 직군입니다. 빈 값을 보내면 현재 값을 유지합니다.
+- className - 유저의 직군입니다. 빈 값을 보내면 현재 값을 유지합니다.
 
 ### 출력
 

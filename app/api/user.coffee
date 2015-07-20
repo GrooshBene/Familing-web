@@ -25,9 +25,9 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
 
 router.all '/self/modify', auth.loginRequired, (req, res, next) ->
   description = param(req, 'description') || '';
-  className = param(req, 'class') || req.user.class;
+  className = param(req, 'className') || req.user.class;
   req.user.description = description;
-  req.user.class = className;
+  req.user.className = className;
   req.user.save (err) ->
     return next err if err
     res.json req.user

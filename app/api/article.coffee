@@ -68,7 +68,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
   voteEntriesParam = param req, 'voteEntries'
   taggedParam = param req, 'tagged'
   photo = req.files.photo
-  image.resize photo
+  image.resize photo, 640
   .then () ->
     template =
       group: req.user.group.id
@@ -118,8 +118,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
         db.collections.user.findOne userId
         .exec (err, user) ->
           return console.log err if err?
-          # Send push nofication
-          console.log user
+          gcm.sendArticle article, user, req.user
       return Q.ninvoke article, 'save'
       .then () ->
         return article

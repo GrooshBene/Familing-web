@@ -15,7 +15,7 @@ router.all '/create', auth.loginRequired, (req, res, next) ->
     author: req.user.id
   db.collections.comment.create template
   .then (comment) ->
-    # gcm.sendComment comment, req.user
+    gcm.sendComment comment, req.user
     res.json comment.toJSON()
   .catch (e) ->
     res.sendStatus 400

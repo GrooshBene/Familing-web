@@ -79,6 +79,10 @@ String, not null. 사용자의 이름입니다.
 
 String. 한줄 소개.
 
+### background
+
+String. 사용자의 프로필 사진 배경입니다.
+
 ### photo
 
 String. 사용자의 프로필 사진입니다.
@@ -289,6 +293,32 @@ User
 #### 출력
 
 HTTP 200
+
+### /api/user/self/photo
+
+계정의 프로필 사진을 설정합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- photo - [Multipart Image] 이미지.
+
+#### 출력
+
+User
+
+### /api/user/self/background
+
+계정의 뒷 사진을 설정합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- photo - [Multipart Image] 이미지.
+
+#### 출력
+
+User
 
 그룹
 -----

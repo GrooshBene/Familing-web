@@ -19,6 +19,7 @@ module.exports =
         required: true
       description: 'string'
       photo: 'string'
+      background: 'string'
       group:
         model: 'group'
       enabled:

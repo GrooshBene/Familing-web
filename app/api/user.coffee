@@ -3,6 +3,7 @@ express = require 'express'
 
 db = require '../../lib/db'
 auth = require '../../lib/auth'
+image = require '../../lib/image'
 param = require '../../lib/param'
 
 router = express.Router()
@@ -36,6 +37,26 @@ router.all '/self/gcm', auth.loginRequired, (req, res, next) ->
   req.user.save (err) ->
     return next err if err
     res.sendStatus 200
+
+router.all '/self/photo', auth.loginRequired, (req, res, next) ->
+  photo = req.files.photo
+  return res.sendStatus 403 unless photo?
+  image.resize photo, 128
+  .then () ->
+    req.user.photo = photo.path
+    req.user.save (err) ->
+      return next err if err
+      res.json req.user
+
+router.all '/self/background', auth.loginRequired, (req, res, next) ->
+  photo = req.files.photo
+  return res.sendStatus 403 unless photo?
+  image.resize photo, 640
+  .then () ->
+    req.user.background = photo.path
+    req.user.save (err) ->
+      return next err if err
+      res.json req.user
 
 router.all '/info', (req, res, next) ->
   id = parseInt param(req, 'id')

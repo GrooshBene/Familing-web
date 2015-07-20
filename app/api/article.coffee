@@ -172,4 +172,50 @@ router.all '/self/list', auth.loginRequired, (req, res, next) ->
   .catch (e) ->
     next e
 
+router.all '/vote', auth.loginRequired, (req, res, next) ->
+  id = param req, 'id'
+  articleObj = null
+  db.collections.article.findOne id
+  .populate 'author'
+  .populate 'voteEntries'
+  .populate 'voters'
+  .populate 'tagged'
+  .populate 'comments'
+  .then (article) ->
+    throw new Error('article is null') unless article?
+    articleObj = article
+    # valid voters. halp
+    article.voters.forEach (voter) ->
+      throw new Error('already voted') if voter.id == req.user.id
+    # Search vote entry
+    template =
+      article: article.id
+      name: param req, 'name'
+    if article.canAdd
+      return db.collections.voteentry.findOrCreate template, template
+    else
+      return db.collections.voteentry.find template
+  .then (voteEntries) ->
+    throw new Error('voteEntry is null') unless voteEntries.length > 0
+    voteEntry = voteEntries[0]
+    voteEntry.votes += 1
+    return Q.ninvoke voteEntry, 'save'
+  .then () ->
+    articleObj.voters.add req.user.id
+    return Q.ninvoke articleObj, 'save'
+  .then () ->
+    db.collections.article.findOne id
+    .populate 'author'
+    .populate 'voteEntries'
+    .populate 'voters'
+    .populate 'tagged'
+    .populate 'comments'
+  .then (article) ->
+    res.json article
+  .catch (e) ->
+    console.log e.stack
+    res.status 500
+    res.send e.message
+  .done()
+
 module.exports = router

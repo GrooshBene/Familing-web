@@ -493,6 +493,20 @@ HTTP 200
 
 Article[]
 
+### /api/article/vote
+
+게시글의 항목에 투표합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- id - 게시글 ID입니다.
+- vote - 투표할 항목의 이름입니다.
+
+#### 출력
+
+Article[]
+
 댓글
 ---
 
@@ -506,8 +520,6 @@ Article[]
 
 - apikey - API 토큰입니다.
 - description - 댓글의 내용입니다.
-- secret - 이 댓글이 비밀 댓글인지의 여부입니다. (0이나 1)
-- reply - 이 댓글의 대상 유저의 id입니다.
 - article - 댓글을 쓸 게시글의 id입니다.
 
 #### 출력

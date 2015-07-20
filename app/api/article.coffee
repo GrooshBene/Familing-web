@@ -88,9 +88,8 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
       # Helpppppp
       if Array.isArray voteEntriesParam
         db.collections.voteentry.create voteEntriesParam.map (voteEntry) ->
-          return
-            name: voteEntry
-            article: article.id
+          name: voteEntry
+          article: article.id
         .then (voteEntries) ->
           article.voteEntries = voteEntries
           return article

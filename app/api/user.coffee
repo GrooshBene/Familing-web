@@ -22,14 +22,6 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
   .catch (e) ->
     next e
 
-router.all '/self/set', auth.loginRequired, (req, res, next) ->
-  req.user.name = param req, 'name'
-  req.user.phone = param req, 'phone'
-  req.user.description = param req, 'description'
-  req.user.save (err) ->
-    return next err if err
-    res.json req.user.toJSON()
-
 router.all '/self/gcm', auth.loginRequired, (req, res, next) ->
   req.user.gcm = param req, 'gcm'
   req.user.save (err) ->
@@ -47,18 +39,6 @@ router.all '/info', (req, res, next) ->
       return res.sendStatus 404
     result = null
     result = user.toJSON() if user?
-    res.json result
-  .catch (e) ->
-    next e
-
-# TODO this is debug feature, it should be remove ASAP!!!!
-
-router.all '/list', (req, res, next) ->
-  db.collections.user.find()
-  .populate 'group'
-  .then (users) ->
-    result = users.map (user) ->
-      return user.toJSON()
     res.json result
   .catch (e) ->
     next e

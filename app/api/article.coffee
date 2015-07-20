@@ -33,6 +33,7 @@ router.all '/listByUsers', auth.loginRequired, (req, res, next) ->
     if not group?
       return res.sendStatus 404
     Q.all group.users.map (user) ->
+      user = user.toJSON()
       return db.collections.article.find
         where:
           group: group.id
@@ -81,7 +82,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
   .then (article) ->
     # TODO add voteentry / tagged handling
     obj = article.toJSON()
-    obj.author = req.user
+    obj.author = req.user.toJSON()
     res.json obj
   .catch (e) ->
     res.sendStatus 400

@@ -83,7 +83,7 @@ module.exports =
       name:
         type: 'string'
         required: true
-      photo: 'array' # String[]
+      photo: 'string'
       description: 'string'
       allowed: # 허락해 주세요에만 해당
         type: 'integer'

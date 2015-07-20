@@ -26,39 +26,41 @@ router.all '/list', auth.loginRequired, (req, res, next) ->
   .catch (e) ->
     next e
 
-handleInfo = (req, res, next) ->
+router.all '/listByUsers', auth.loginRequired, (req, res, next) ->
+  db.collections.group.findOne req.user.group.id
+  .populate 'users'
+  .then (group) ->
+    if not group?
+      return res.sendStatus 404
+    Q.all group.users.map (user) ->
+      return db.collections.article.find
+        where:
+          group: group.id
+          author: user.id
+        sort: 'id DESC'
+      .populate 'author'
+      .then (articles) ->
+        user.articles = articles
+        return user
+    .then (users) ->
+      res.json users
+  .catch (e) ->
+    next e
+
+router.all '/info', (req, res, next) ->
   id = parseInt param(req, 'id')
   if isNaN id
     return res.sendStatus 400
   db.collections.article.findOne id
   .populate 'author'
-  .populate 'responder'
+  .populate 'voteEntries'
+  .populate 'voters'
+  .populate 'tagged'
+  .populate 'comments'
   .then (article) ->
-    if not article?
-      return res.sendStatus 404
-    result = article.toJSON()
-    # Populate comments. :(
-    query =
-      where:
-        article: article.id
-        or: [
-          secret: false
-        ]
-      sort: 'id DESC'
-    if req.user?
-      query.where.or.push
-        reply: req.user.id
-      if req.user.id == article.author.id
-        delete query.where.or
-    db.collections.comment.find query
-    .then (comments) ->
-      # Merge result and comments
-      result.comments = comments
-      res.json result
+    req.json article
   .catch (e) ->
     next e
-
-router.all '/info', handleInfo
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
   photo = req.files.photo
@@ -98,7 +100,7 @@ router.all '/self/modify', auth.loginRequired, (req, res, next) ->
     location: param req, 'location'
   db.collections.article.update query, template
   .populate 'author'
-  .populate 'responder'
+  .populate 'tagged'
   .then (articles) ->
     return res.sendStatus 422 if articles.length == 0
     res.json articles[0].toJSON()
@@ -111,7 +113,6 @@ router.all '/self/delete', auth.loginRequired, (req, res, next) ->
   query =
     id: id
     author: author
-    state: 0
   db.collections.article.destroy query
   .then () ->
     res.sendStatus 200

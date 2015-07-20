@@ -141,7 +141,7 @@ Article
 - group - Group
 - type - int (0~3) 게시글, 해보고 싶어요, 허락해 주세요, 어떻게 할까요
 - name - String
-- photo - String[]
+- photo - String
 - description - String
 - allowed - int (0~2) 대기, 승낙, 거절 (허락해 주세요)
 - solved - boolean 해결 여부 (어떻게 할까요)

@@ -28,6 +28,7 @@ module.exports =
       tagged: # I really hate to do this
         collection: 'article'
         via: 'tagged'
+      class: 'string'
       token: 'string'
       gcm: 'string'
       passport:
@@ -90,9 +91,10 @@ module.exports =
       solved: # 어떻게 할까요에만 해당
         type: 'boolean'
         defaultsTo: false
-      agree: 'integer'
-      decline: 'integer'
-      votes:
+      voteEntries:
+        collection: 'voteentry'
+        via: 'article'
+      voters:
         collection: 'user'
       author:
         model: 'user'
@@ -103,6 +105,18 @@ module.exports =
       comments:
         collection: 'comment'
         via: 'article'
+  VoteEntry: Waterline.Collection.extend
+    identity: 'voteentry'
+    connection: 'default'
+    attributes:
+      article:
+        model: 'article'
+      name: 'string'
+      votes:
+        type: 'integer'
+        defaultsTo: 0
+      voters:
+        collection: 'user'
   Comment: Waterline.Collection.extend
     identity: 'comment'
     connection: 'default'

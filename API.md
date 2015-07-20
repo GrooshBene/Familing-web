@@ -87,6 +87,10 @@ Group. 사용자가 속하고 있는 그룹입니다.
 
 Boolean, not null. 사용자의 활성 상태입니다.
 
+### class
+
+String. 유저의 직군입니다.
+
 ### token
 
 String. 사용자의 API 토큰입니다.
@@ -123,7 +127,31 @@ String. 단체의 초대 코드입니다.
 Article
 -------
 
-아몰랑
+게시글입니다
+
+- id - int
+- group - Group
+- type - int (0~3) 게시글, 해보고 싶어요, 허락해 주세요, 어떻게 할까요
+- name - String
+- photo - String[]
+- description - String
+- allowed - int (0~2) 대기, 승낙, 거절 (허락해 주세요)
+- solved - boolean 해결 여부 (어떻게 할까요)
+- canAdd - boolean 투표 항목 추가 가능 여부 (어떻게 할까요)
+- voteEntries - VoteEntry[] 투표 후보 목록
+- voters - User[] 투표한 유저 목록
+- author - User 글쓴이
+- tagged - User[] 태그당한 유저 목록
+- comments - Comment[] 댓글 목록
+
+VoteEntry
+---------
+
+투표 항목 하나를 의미합니다.
+
+- article - Article 게시글
+- votes - int 투표 받은 갯수
+- voters - User[] 투표 한 사람 목록
 
 Comment
 -------

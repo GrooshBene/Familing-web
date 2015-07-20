@@ -91,6 +91,7 @@ module.exports =
       solved: # 어떻게 할까요에만 해당
         type: 'boolean'
         defaultsTo: false
+      canAdd: 'boolean' # 어떻게 할까요에만 해당
       voteEntries:
         collection: 'voteentry'
         via: 'article'

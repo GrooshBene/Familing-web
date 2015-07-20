@@ -28,6 +28,7 @@ passport.use new LocalApiKeyStrategy (apikey, done) ->
   db.collections.user.findOne
     token: apikey
   .populate 'group'
+  .populate 'tagged'
   .then (user) ->
     log 'Found user. Done!'
     done null, user

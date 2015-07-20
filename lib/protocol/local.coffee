@@ -28,6 +28,7 @@ module.exports.register = (username, password, name, done) ->
       name: name
       passport: passport.id
     .populate 'group'
+    .populate 'tagged'
   .then (user) ->
     userObj = user
     log 'Applying user id into passport'
@@ -58,6 +59,7 @@ module.exports.login = (username, password, done) ->
       log 'Found passport and user; Finding user'
       return db.collections.user.findOne passportObj.user
       .populate 'group'
+      .populate 'tagged'
     else
       userObj = null
       log 'Found passport and no user; Nope.'

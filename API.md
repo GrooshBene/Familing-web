@@ -75,6 +75,10 @@ int, primary key. 사용자의 고유 번호입니다.
 
 String, not null. 사용자의 이름입니다.
 
+### description
+
+String. 한줄 소개.
+
 ### photo
 
 String. 사용자의 프로필 사진입니다.
@@ -248,6 +252,20 @@ Google Cloud Messaging의 토큰을 설정합니다.
 
 HTTP 200
 
+### /api/user/self/modify
+
+자신의 유저 정보를 수정합니다.
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- description - 유저의 프로필 메시지입니다.
+- class - 유저의 직군입니다. 빈 값을 보내면 현재 값을 유지합니다.
+
+### 출력
+
+User
+
 ### /api/user/self/info
 
 자신의 유저 정보를 반환합니다.
@@ -338,7 +356,7 @@ Group
 
 #### 입력
 
-- group - 그룹의 고유번호입니다.
+- apikey - API 키입니다.
 - name - 검색할 이름입니다. (선택)
 - category - 가져올 게시글의 카테고리입니다. (기본=-1)
 - type - 게시글의 타입입니다. (기본=-1)

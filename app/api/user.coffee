@@ -41,7 +41,7 @@ router.all '/info', (req, res, next) ->
   if isNaN id
     return res.sendStatus 400
   db.collections.user.findOne id
-  .populate 'groups'
+  .populate 'group'
   .then (user) ->
     if not user?
       return res.sendStatus 404
@@ -55,7 +55,7 @@ router.all '/info', (req, res, next) ->
 
 router.all '/list', (req, res, next) ->
   db.collections.user.find()
-  .populate 'groups'
+  .populate 'group'
   .then (users) ->
     result = users.map (user) ->
       return user.toJSON()

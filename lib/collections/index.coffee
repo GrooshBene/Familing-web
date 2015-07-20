@@ -67,10 +67,6 @@ module.exports =
       inviteCode: 'string'
       users:
         collection: 'user'
-      toJSON: () ->
-        obj = @toObject()
-        delete obj.inviteCode
-        return obj
   Article: Waterline.Collection.extend
     identity: 'article'
     connection: 'default'

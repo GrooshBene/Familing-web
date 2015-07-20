@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Sorry, I have to be subtle about this -->
+    <title>Web Frontend</title>
+    <script src="index.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <meta encoding="utf-8">
+  </head>
+  <body>
+    <div id="fblogin">
+      <fb:login-button scope="public_profile" onlogin="checkLoginState();">
+      </fb:login-button>
+    </div>
+    <div id="status">
+    </div>
+    <div>
+      <h4>내 그룹 목록</h6>
+      <ul id="grouplist">
+      </ul>
+    </div>
+    <div>
+      <h4>사용 가능 그룹 목록</h4>
+      <ul id="groupalllist">
+      </ul>
+      <form id="groupsubmit" onsubmit="return createGroup(this.name.value, this.description.value)">
+        새 그룹 만들기
+        <input name="name" placeholder="이름">
+        <input name="description" placeholder="내용">
+        <input type="submit">
+      </form>
+      <form id="groupsearch" onsubmit="return fetchGroup(this.name.value)">
+        그룹 검색
+        <input name="name" placeholder="이름">
+        <input type="submit">
+      </form>
+      <form id="groupall" onsubmit="return fetchGroupAll()">
+        그룹 리스트
+        <input type="submit">
+      </form>
+    </div>
+    <div>
+      <h4>그룹 안의 사용자 목록</h4>
+      <ul id="groupuserlist">
+      </ul>
+    </div>
+    <div id="groupcon" style="display:none">
+      <div>
+        <h4>게시글 목록</h4>
+        <ul id="articlelist">
+        </ul>
+      </div>
+      <div>
+        <form id="articlecreate" onsubmit="return createArticle(this)">
+          새 글 작성하기
+          <input name="name" placeholder="이름">
+          <input name="description" placeholder="내용">
+          <input name="reward" placeholder="보상">
+          <input name="location" placeholder="위치">
+          <input type="file" name="photo">
+          <select name="type">
+            <option value="0">빌려주세요</option>
+            <option value="1">교환해요</option>
+          </select>
+          <select name="category">
+            <option value="0">필기구</option>
+            <option value="1">전자제품</option>
+            <option value="2">음식/음료</option>
+            <option value="3">옷</option>
+            <option value="4">책/문서</option>
+            <option value="5">기타</option>
+          </select>
+          <input type="submit">
+        </form>
+      </div>
+    </div>
+    <div id="articleview">
+      
+    </div>
+  </body>
+</html>

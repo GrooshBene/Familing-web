@@ -1,0 +1,12 @@
+web:
+  build: .
+  ports:
+    - "80:8000"
+  volumes:
+    - /usr/src/app/uploads
+  links:
+    - postgres
+postgres:
+  image: postgres
+  environment:
+    POSTGRES_PASSWORD: billimpostgres

@@ -1,0 +1,43 @@
+{
+  "name": "Familing-web",
+  "version": "1.0.0",
+  "description": "Familing web front/backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "while [ 1 ]; do DEBUG=app:* ./node_modules/.bin/coffee index.coffee; done",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoo2001818/Familing-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoo2001818/Familing-web/issues"
+  },
+  "homepage": "https://github.com/yoo2001818/Familing-web#readme",
+  "dependencies": {
+    "bcryptjs": "^2.2.0",
+    "body-parser": "^1.13.2",
+    "coffee-script": "^1.9.3",
+    "debug": "^2.2.0",
+    "express": "^4.13.1",
+    "gm": "^1.18.1",
+    "morgan": "^1.6.1",
+    "multer": "^0.1.8",
+    "node-gcm": "^0.10.0",
+    "passport": "^0.2.2",
+    "passport-facebook": "^2.0.0",
+    "passport-facebook-token": "^2.2.0",
+    "passport-local": "^1.0.0",
+    "passport-localapikey": "0.0.3",
+    "q": "^1.4.1",
+    "rand-token": "^0.2.1",
+    "sails-disk": "^0.10.8",
+    "sails-memory": "^0.10.5",
+    "sails-postgresql": "^0.10.15",
+    "serve-static": "^1.10.0",
+    "waterline": "^0.10.25"
+  }
+}

@@ -26,7 +26,16 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
     res.json groupObj
 
 router.all '/self/info', auth.loginRequired, (req, res, next) ->
-  res.json req.user.group
+  db.collections.group.findOne req.user.group.id
+  .populate 'users'
+  .then (group) ->
+    if not group?
+      return res.sendStatus 404
+    result = null
+    result = group.toJSON() if group?
+    res.json result
+  .catch (e) ->
+    next e
 
 router.all '/self/join', auth.loginRequired, (req, res, next) ->
   code = param req, 'code'
@@ -37,6 +46,7 @@ router.all '/self/join', auth.loginRequired, (req, res, next) ->
   groupobj = null
   db.collections.group.findOne
     inviteCode: code
+  .populate 'users'
   .then (group) ->
     if not group?
       return res.sendStatus 404

@@ -25,6 +25,9 @@ module.exports =
         type: 'boolean'
         required: true
         defaultsTo: true
+      tagged: # I really hate to do this
+        collection: 'article'
+        via: 'tagged'
       token: 'string'
       gcm: 'string'
       passport:
@@ -61,9 +64,13 @@ module.exports =
       name:
         type: 'string'
         required: true
-      description: 'string'
+      inviteCode: 'string'
       users:
         collection: 'user'
+      toJSON: () ->
+        obj = @toObject()
+        delete obj.inviteCode
+        return obj
   Article: Waterline.Collection.extend
     identity: 'article'
     connection: 'default'
@@ -74,27 +81,29 @@ module.exports =
       type:
         type: 'integer'
         required: true
-        in: [0, 1, 2, 3] # 빌려주세요, 빌려드려요, 교환해요, 드려요
-      category:
-        type: 'integer'
-        required: true
-      state:
-        type: 'integer'
-        required: true
-        in: [0, 1, 2, 3, 4] # 대기 중, 삭제 됨, 승인, 빌려줌, 완료
-        defaultsTo: 0
+        in: [0, 1, 2, 3] # 게시글, 해보고 싶어요, 허락해 주세요, 어떻게 할까요
       name:
         type: 'string'
         required: true
-      photo: 'string'
+      photo: 'array' # String[]
       description: 'string'
-      reward: 'string'
-      location: 'string'
+      allowed: # 허락해 주세요에만 해당
+        type: 'integer'
+        in: [0, 1, 2] # 대기, 승낙, 거절
+        defaultsTo: 0
+      solved: # 어떻게 할까요에만 해당
+        type: 'boolean'
+        defaultsTo: false
+      agree: 'integer'
+      decline: 'integer'
+      votes:
+        collection: 'user'
       author:
         model: 'user'
         required: true
-      responder:
-        model: 'user'
+      tagged:
+        collection: 'user'
+        via: 'tagged'
       comments:
         collection: 'comment'
         via: 'article'
@@ -108,12 +117,6 @@ module.exports =
       author:
         model: 'user'
         required: true
-      secret:
-        type: 'boolean'
-        required: true
-        defaultsTo: false
       article:
         model: 'article'
         required: true
-      reply:
-        model: 'user'

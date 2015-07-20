@@ -16,7 +16,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
   groupObj = null
   db.collections.group.create
     name: param req, 'name'
-    inviteCode: randtoken.generate 32
+    inviteCode: randtoken.generate 8
   .then (group) ->
     groupObj = group
     req.user.group = group.id

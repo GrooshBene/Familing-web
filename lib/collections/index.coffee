@@ -69,6 +69,7 @@ module.exports =
       inviteCode: 'string'
       users:
         collection: 'user'
+        via: 'group'
   Article: Waterline.Collection.extend
     identity: 'article'
     connection: 'default'

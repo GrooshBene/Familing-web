@@ -77,6 +77,8 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
       description: param req, 'description'
       canAdd: param req, 'canAdd'
       author: req.user.id
+    template.allowed = 0 if template.type == 2
+    template.solved = 0 if template.type == 3
     template.canAdd = false if template.type == 1
     template.photo = photo.path if photo? && photo.path?
     db.collections.article.create template
@@ -129,6 +131,7 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
     obj.author = req.user.toJSON()
     res.json obj
   .catch (e) ->
+    console.log e.stack
     res.status 400
     res.send e.message
 

@@ -15,7 +15,7 @@ module.exports = (app) ->
     app.use serveStatic process.cwd() + '/public'
     app.use '/uploads', serveStatic process.cwd() + '/uploads'
     app.use bodyParser.urlencoded
-      extended: false
+      extended: true
     app.use multer
       dest: 'uploads'
       rename: (fieldname, filename) ->

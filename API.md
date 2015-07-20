@@ -434,8 +434,13 @@ Article
 #### 입력
 
 - apikey - API 토큰입니다.
-
-이것 좀 보면 백엔드 개발자 좀 살려주세요
+- type - 게시글 타입입니다. int (0~3) 게시글, 해보고 싶어요, 허락해 주세요, 어떻게 할까요
+- name - 게시글 제목
+- description - 게시글 내용
+- tagged[] - 태그될 유저 목록 (클라이언트에서는 List<Integer> 하심 됨)
+- voteEntries[] - 투표 후보 목록 (List<String>)
+- canAdd - 투표 추가 가능 여부
+- photo - [Multipart Image] 이미지
 
 #### 출력
 
@@ -449,8 +454,13 @@ Article
 
 - apikey - API 토큰입니다.
 - id - 수정할 게시글의 고유번호입니다.
-
-살려주세요
+- type - 게시글 타입입니다. int (0~3) 게시글, 해보고 싶어요, 허락해 주세요, 어떻게 할까요
+- name - 게시글 제목
+- description - 게시글 내용
+- tagged[] - 태그될 유저 목록 (클라이언트에서는 List<Integer> 하심 됨)
+- voteEntries[] - 투표 후보 목록 (List<String>)
+- canAdd - 투표 추가 가능 여부
+- photo - [Multipart Image] 이미지
 
 #### 출력
 

@@ -63,21 +63,23 @@ router.all '/info', (req, res, next) ->
     next e
 
 router.all '/self/create', auth.loginRequired, (req, res, next) ->
+  return res.sendStatus 400 if not req.user.group?
   photo = req.files.photo
   image.resize photo
   .then () ->
     template =
-      group: param req, 'group'
-      category: param req, 'category'
+      group: req.user.group.id
       type: param req, 'type'
       name: param req, 'name'
       description: param req, 'description'
-      reward: param req, 'reward'
-      location: param req, 'location'
+      canAdd: param req, 'canAdd'
       author: req.user.id
     template.photo = photo.path if photo? && photo.path?
     db.collections.article.create template
+    .populate 'tagged'
+    .populate 'voteEntries'
   .then (article) ->
+    # TODO add voteentry / tagged handling
     obj = article.toJSON()
     obj.author = req.user
     res.json obj
@@ -85,27 +87,8 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
     res.sendStatus 400
 
 router.all '/self/modify', auth.loginRequired, (req, res, next) ->
-  id = param req, 'id'
-  author = req.user.id
-  query =
-    id: id
-    author: author
-    state: 0
-  template =
-    category: param req, 'category'
-    type: param req, 'type'
-    name: param req, 'name'
-    description: param req, 'description'
-    reward: param req, 'reward'
-    location: param req, 'location'
-  db.collections.article.update query, template
-  .populate 'author'
-  .populate 'tagged'
-  .then (articles) ->
-    return res.sendStatus 422 if articles.length == 0
-    res.json articles[0].toJSON()
-  .catch (e) ->
-    res.sendStatus 400
+  res.status 500
+  res.send 'Not going to implement it'
 
 router.all '/self/delete', auth.loginRequired, (req, res, next) ->
   id = param req, 'id'

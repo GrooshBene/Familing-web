@@ -11,13 +11,11 @@ router = express.Router()
 router.all '/create', auth.loginRequired, (req, res, next) ->
   template =
     description: param req, 'description'
-    secret: param req, 'secret'
-    reply: param req, 'reply'
     article: param req, 'article'
     author: req.user.id
   db.collections.comment.create template
   .then (comment) ->
-    gcm.sendComment comment, req.user
+    # gcm.sendComment comment, req.user
     res.json comment.toJSON()
   .catch (e) ->
     res.sendStatus 400

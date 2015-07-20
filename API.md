@@ -505,7 +505,34 @@ Article[]
 
 #### 출력
 
-Article[]
+Article
+
+### /api/article/solve
+
+게시글을 '해결 함'으로 마킹합니다. (어떻게 할까요)
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- id - 게시글 ID입니다.
+
+#### 출력
+
+Article
+
+### /api/article/allowed
+
+게시글을 '허용'이나 '거부'로 마킹합니다. (허락해 주세요)
+
+#### 입력
+
+- apikey - API 토큰입니다.
+- id - 게시글 ID입니다.
+- allowed - 마킹할 숫자입니다. 1 - 허용, 2 - 거부
+
+#### 출력
+
+Article
 
 댓글
 ---

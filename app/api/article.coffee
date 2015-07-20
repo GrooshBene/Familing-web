@@ -221,4 +221,62 @@ router.all '/vote', auth.loginRequired, (req, res, next) ->
     res.send e.message
   .done()
 
+router.all '/solve', auth.loginRequired, (req, res, next) ->
+  id = param req, 'id'
+  articleObj = null
+  db.collections.article.findOne id
+  .populate 'author'
+  .populate 'voteEntries'
+  .populate 'voters'
+  .populate 'tagged'
+  .populate 'comments'
+  .then (article) ->
+    throw new Error('article is null') unless article?
+    throw new Error('already set') if article.solved
+    throw new Error('type incorrect') unless article.type == 3
+    articleObj = article
+    validOp = false
+    # validate tagged / author
+    validOp = true if article.author.id == req.user.id
+    article.tagged.forEach (user) ->
+      validOp = true if user.id == req.user.id
+    throw new Error('no permission') unless validOp
+    article.solved = true
+    return Q.ninvoke article, 'save'
+  .then () ->
+    res.json articleObj
+  .catch (e) ->
+    res.status 500
+    res.send e.message
+  .done()
+
+router.all '/allowed', auth.loginRequired, (req, res, next) ->
+  id = param req, 'id'
+  articleObj = null
+  db.collections.article.findOne id
+  .populate 'author'
+  .populate 'voteEntries'
+  .populate 'voters'
+  .populate 'tagged'
+  .populate 'comments'
+  .then (article) ->
+    throw new Error('article is null') unless article?
+    throw new Error('already set') unless article.allowed == 0
+    throw new Error('type incorrect') unless article.type == 2
+    articleObj = article
+    validOp = false
+    # validate tagged / author
+    validOp = true if article.author.id == req.user.id
+    article.tagged.forEach (user) ->
+      validOp = true if user.id == req.user.id
+    throw new Error('no permission') unless validOp
+    article.allowed = param req, 'allowed'
+    return Q.ninvoke article, 'save'
+  .then () ->
+    res.json articleObj
+  .catch (e) ->
+    res.status 500
+    res.send e.message
+  .done()
+
 module.exports = router

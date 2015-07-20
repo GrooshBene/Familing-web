@@ -59,7 +59,7 @@ router.all '/info', (req, res, next) ->
   .populate 'tagged'
   .populate 'comments'
   .then (article) ->
-    req.json article
+    res.json article
   .catch (e) ->
     next e
 

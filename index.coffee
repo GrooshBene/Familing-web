@@ -8,7 +8,7 @@ appHook = require './app/'
 app = express()
 
 Q.fcall () ->
-  console.log 'Bill.im server starting up'
+  console.log 'Familing server starting up'
 .then db.init
 .then middleware.bind null, app
 .then appHook.bind null, app

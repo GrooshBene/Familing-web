@@ -110,7 +110,8 @@ router.all '/self/create', auth.loginRequired, (req, res, next) ->
           article.voteEntries = voteEntries
           return article
       else
-        throw new Error('voteEntries is not an array')
+        # throw new Error('voteEntries is not an array')
+        console.log 'emptyyy'
     else if article.type == 1
       # 해보고 싶어요
       # Add voteEntry with predefined data.

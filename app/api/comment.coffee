@@ -18,6 +18,7 @@ router.all '/create', auth.loginRequired, (req, res, next) ->
     gcm.sendComment comment, req.user
     res.json comment.toJSON()
   .catch (e) ->
+    console.log e.message
     res.sendStatus 400
 
 router.all '/modify', auth.loginRequired, (req, res, next) ->

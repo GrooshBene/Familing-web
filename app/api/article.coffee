@@ -59,7 +59,20 @@ router.all '/info', (req, res, next) ->
   .populate 'tagged'
   .populate 'comments'
   .then (article) ->
-    res.json article
+    if not article?
+      return res.sendStatus 404
+    result = article.toJSON()
+    # Populate comments. :(
+    query =
+      where:
+        article: article.id
+      sort: 'id DESC'
+    db.collections.comment.find query
+    .populate 'author'
+    .then (comments) ->
+      # Merge result and comments
+      result.comments = comments
+      res.json result
   .catch (e) ->
     next e
 
